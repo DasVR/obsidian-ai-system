@@ -44,6 +44,58 @@ services:
       retries: 5
       start_period: 60s
 
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: obsidian-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"
+    volumes:
+      - ./qdrant-data:/qdrant/storage
+    networks:
+      - proxy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  search-api:
+    build: ./search-api
+    container_name: obsidian-search-api
+    restart: unless-stopped
+    ports:
+      - "8093:8090"
+    volumes:
+      - ./vault:/vault:ro
+    environment:
+      - QDRANT_URL=http://obsidian-qdrant:6333
+      - OLLAMA_URL=http://obsidian-ollama:11434
+      - VAULT_PATH=/vault
+      - MODEL=phi4
+      - EMBED_MODEL=nomic-embed-text
+    networks:
+      - proxy
+    depends_on:
+      - qdrant
+      - ollama
+
+  enhancer:
+    build: ./enhancer
+    container_name: obsidian-enhancer
+    restart: "no"
+    volumes:
+      - ./vault:/vault
+    environment:
+      - OLLAMA_URL=http://obsidian-ollama:11434
+      - VAULT_PATH=/vault
+      - MODEL=phi4
+      - INTERVAL_MIN=60
+    networks:
+      - proxy
+    depends_on:
+      - ollama
+
 networks:
   proxy:
     external: true
