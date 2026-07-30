@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  couchdb:
+    image: couchdb:3.4
+    container_name: obsidian-couchdb
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "5984:5984"
+    volumes:
+      - ./couchdb-data:/opt/couchdb/data
+      - ./couchdb-config:/opt/couchdb/etc/local.d
+    networks:
+      - proxy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5984/_up"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  proxy:
+    external: true
