@@ -1,0 +1,5 @@
+=== LiveSync Setup URI ===
+
+obsidian://setuplivesync?settings=eyJjb3VjaERCX1VSSSI6ICJodHRwczovL29ic2lkaWFuLXN5bmMuZGFzZGV2Lm5ldCIsICJjb3VjaERCX1VTRVIiOiAiYWRtaW4iLCAiY291Y2hEQl9QQVNTV09SRCI6ICJvYnNpZGlhbl9zZWNyZXRfMjAyNiIsICJjb3VjaERCX0RCTkFNRSI6ICJvYnNpZGlhbi1saXZlc3luYyIsICJwYXNzcGhyYXNlIjogIiIsICJkaXNhYmxlX2VuY3J5cHRpb24iOiB0cnVlfQ==
+
+Total length: 310 characters

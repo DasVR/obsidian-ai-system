@@ -68,12 +68,16 @@ services:
       - "8093:8090"
     volumes:
       - ./vault:/vault:ro
+    env_file:
+      - .env
     environment:
       - QDRANT_URL=http://obsidian-qdrant:6333
       - OLLAMA_URL=http://obsidian-ollama:11434
       - VAULT_PATH=/vault
       - MODEL=phi4
       - EMBED_MODEL=nomic-embed-text
+      - COUCHDB_URL=http://obsidian-couchdb:5984
+      - COUCHDB_DB=obsidian-livesync
     networks:
       - proxy
     depends_on:
